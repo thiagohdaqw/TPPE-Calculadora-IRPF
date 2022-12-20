@@ -8,12 +8,14 @@ import Deducao from "./Deducao";
 export default class CalculadoraIRPF {
     rendimentos: Rendimento[];
     deducoes: Deducao[];
-    descricao_contribuicao: string;
-    valor_contribuicao: number;
+    descricao_contribuicao: string[];
+    valor_contribuicao: number[];
 
     constructor() {
         this.rendimentos = [];
         this.deducoes = [];
+        this.descricao_contribuicao = [];
+        this.valor_contribuicao = [];
     }
 
     cadastraRedimento(rendimento: string, valor: number) {
@@ -60,17 +62,21 @@ export default class CalculadoraIRPF {
     }
 
     cadastraContribuicaoPrevidenciaria(descricao_contribuicao: string, valor_contribuicao: number) {
-        this.descricao_contribuicao = descricao_contribuicao;
-        this.valor_contribuicao = valor_contribuicao;
+        this.descricao_contribuicao.push(descricao_contribuicao);
+        this.valor_contribuicao.push(valor_contribuicao);
     }
 
     getTotalContribuicaoPrevidenciaria(): number {
-        return 100;
+        return this.valor_contribuicao[0] + (this.valor_contribuicao[1] ?? 0);
     }
 
-    getContribuicaoPrevidenciaria(): [[string, number]] {
+    getContribuicaoPrevidenciaria(): [string, number][] {
+        if (this.descricao_contribuicao.length === 1) {
+            return [[this.descricao_contribuicao[0], this.valor_contribuicao[0]]]
+        }
         return [
-            ['Contribuicao no contracheque', 100.0]
+            [this.descricao_contribuicao[0], this.valor_contribuicao[0]],
+            [this.descricao_contribuicao[1], this.valor_contribuicao[1]],
         ]
     }
 }
