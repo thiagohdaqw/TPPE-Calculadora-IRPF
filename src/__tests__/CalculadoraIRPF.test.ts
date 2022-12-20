@@ -83,4 +83,16 @@ describe('CalculadoraIRPF', () => {
           calculadora.cadastraRedimento('Salario', valor as number)
         }).toThrowError(ValorRendimentoInvalidoException);
     });
+
+    test('Cadastra dedução de pensão alimentícia', () => {
+      const calculadora = new CalculadoraIRPF();
+    
+      calculadora.cadastrandoDed('Pensão alimentícia', 200.0);
+    
+      expect(calculadora.getTotalDed())
+        .toBeCloseTo(200.0, 2);
+      expect(calculadora.getDed())
+        .toEqual([['Pensão alimentícia', 200.0]]);
+    });
+
 });
