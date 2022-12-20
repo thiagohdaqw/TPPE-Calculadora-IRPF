@@ -67,16 +67,12 @@ export default class CalculadoraIRPF {
     }
 
     getTotalContribuicaoPrevidenciaria(): number {
-        return this.valor_contribuicao[0] + (this.valor_contribuicao[1] ?? 0);
+        return this.valor_contribuicao.reduce((soma, valor) => soma + valor, 0);
     }
 
     getContribuicaoPrevidenciaria(): [string, number][] {
-        if (this.descricao_contribuicao.length === 1) {
-            return [[this.descricao_contribuicao[0], this.valor_contribuicao[0]]]
-        }
-        return [
-            [this.descricao_contribuicao[0], this.valor_contribuicao[0]],
-            [this.descricao_contribuicao[1], this.valor_contribuicao[1]],
-        ]
+        return this.descricao_contribuicao
+        .map((nome, index) => [nome, this.valor_contribuicao[index]]);
     }
+
 }

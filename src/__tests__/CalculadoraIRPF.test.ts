@@ -143,4 +143,20 @@ describe('CalculadoraIRPF', () => {
       ]);
   });
 
+  test('Cadastra terceira contribuicao previdenciaria', () => {
+    const calculadora = new CalculadoraIRPF();
+
+    calculadora.cadastraContribuicaoPrevidenciaria('Contribuicao no contracheque', 100.0);
+    calculadora.cadastraContribuicaoPrevidenciaria('Contribuição via carnê INSS', 130.0);
+    calculadora.cadastraContribuicaoPrevidenciaria('Contribuicao no contracheque IPREV', 500.3);
+
+    expect(calculadora.getTotalContribuicaoPrevidenciaria())
+      .toBeCloseTo(730.3, 2);
+    expect(calculadora.getContribuicaoPrevidenciaria())
+      .toEqual([
+        ['Contribuicao no contracheque', 100.0],
+        ['Contribuição via carnê INSS', 130.0],
+        ['Contribuicao no contracheque IPREV', 500.3]
+      ]);
+  });
 });
