@@ -1,6 +1,7 @@
 import CalculadoraIRPF from '../CalculadoraIRPF';
 import DescricaoEmBrancoException from '../excecoes/DescricaoEmBrancoException';
 import ValorRendimentoInvalidoException from '../excecoes/ValorRendimentoInvalidoException';
+import ValorDeducaoInvalidoException from '../excecoes/ValorDeducaoInvalidoException';
 
 describe('CalculadoraIRPF', () => {
 
@@ -151,5 +152,14 @@ describe('CalculadoraIRPF', () => {
       expect(() => {
         calculadora.cadastrandoDed(' ', 500);
       }).toThrow(DescricaoEmBrancoException);
+  });
+
+    it.each([[null], [-1], [-10000]])
+    ('lança exceção quando valor da deducao é invalida: %p', (valor: number | null) => {
+    const calculadora = new CalculadoraIRPF();
+
+    expect(() => {
+      calculadora.cadastrandoDed('Pensão alimentícia', valor as number)
+    }).toThrowError(ValorDeducaoInvalidoException);
   });
 });
