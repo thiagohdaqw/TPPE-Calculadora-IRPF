@@ -3,19 +3,18 @@ import ValorRendimentoInvalidoException from "./excecoes/ValorRendimentoInvalido
 import ValorDeducaoInvalidoException from "./excecoes/ValorDeducaoInvalidoException";
 import Rendimento from "./Rendimento";
 import Deducao from "./Deducao";
+import ContribuicaoPrevidenciaria from "./ContribuicaoPrevidenciaria";
 
 
 export default class CalculadoraIRPF {
     rendimentos: Rendimento[];
     deducoes: Deducao[];
-    descricao_contribuicao: string[];
-    valor_contribuicao: number[];
+    contribuicoes: ContribuicaoPrevidenciaria[];
 
     constructor() {
         this.rendimentos = [];
         this.deducoes = [];
-        this.descricao_contribuicao = [];
-        this.valor_contribuicao = [];
+        this.contribuicoes = [];
     }
 
     cadastraRedimento(rendimento: string, valor: number) {
@@ -61,18 +60,18 @@ export default class CalculadoraIRPF {
         .map(deducao => [deducao.nome, deducao.valor]);
     }
 
-    cadastraContribuicaoPrevidenciaria(descricao_contribuicao: string, valor_contribuicao: number) {
-        this.descricao_contribuicao.push(descricao_contribuicao);
-        this.valor_contribuicao.push(valor_contribuicao);
+    cadastraContribuicaoPrevidenciaria(contribuicao: string, valor: number) {
+        this.contribuicoes.push(new ContribuicaoPrevidenciaria(contribuicao, valor));
     }
 
     getTotalContribuicaoPrevidenciaria(): number {
-        return this.valor_contribuicao.reduce((soma, valor) => soma + valor, 0);
+        return this.contribuicoes
+            .reduce((soma, contribuicao) => soma + contribuicao.valor, 0);
     }
 
     getContribuicaoPrevidenciaria(): [string, number][] {
-        return this.descricao_contribuicao
-        .map((nome, index) => [nome, this.valor_contribuicao[index]]);
+        return this.contribuicoes
+        .map(contribuicao => [contribuicao.nome, contribuicao.valor]);
     }
 
 }
