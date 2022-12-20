@@ -1,26 +1,24 @@
+import Rendimento from "./Rendimento";
 
 
 export default class CalculadoraIRPF {
-    nomeRendimentos: string[];
-    valorRendimentos: number[];
+    rendimentos: Rendimento[];
 
     constructor() {
-        this.valorRendimentos = [];
-        this.nomeRendimentos = [];
+        this.rendimentos = [];
     }
 
     cadastraRedimento(rendimento: string, valor: number) {
-        this.nomeRendimentos.push(rendimento);
-        this.valorRendimentos.push(valor);
+        this.rendimentos.push(new Rendimento(rendimento, valor));
     }
 
     getTotalRendimentos(): number {
-        return this.valorRendimentos
-            .reduce((soma, valor) => soma + valor, 0);
+        return this.rendimentos
+            .reduce((soma, rendimento) => soma + rendimento.valor, 0);
     }
 
     getRendimentos(): [string, number][] {
-        return this.nomeRendimentos
-            .map((nome, index) => [nome, this.valorRendimentos[index]]);
+        return this.rendimentos
+            .map(rendimento => [rendimento.nome, rendimento.valor]);
     }
 }

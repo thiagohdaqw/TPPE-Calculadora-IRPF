@@ -1,47 +1,66 @@
 import CalculadoraIRPF from '../CalculadoraIRPF';
 
+describe('CalculadoraIRPF', () => {
 
-test('Cadastra um rendimento do tipo Salario', () => {
-  const calculadora = new CalculadoraIRPF();
+  it('cadastra um rendimento do tipo Salario', () => {
+    const calculadora = new CalculadoraIRPF();
+  
+    calculadora.cadastraRedimento('Salario', 500.0);
+  
+    expect(calculadora.getTotalRendimentos())
+      .toBeCloseTo(500.0, 2);
+    expect(calculadora.getRendimentos())
+      .toEqual([['Salario', 500.0]]);
+  });
 
-  calculadora.cadastraRedimento('Salario', 500.0);
 
-  expect(calculadora.getTotalRendimentos())
-    .toBeCloseTo(500.0, 2);
-  expect(calculadora.getRendimentos())
-    .toEqual([['Salario', 500.0]]);
-});
+  it('cadastra dois rendimentos', () => {
+    const calculadora = new CalculadoraIRPF();
+  
+    calculadora.cadastraRedimento('Salario', 500.0);
+    calculadora.cadastraRedimento('Aluguel', 750.50);
+  
+    expect(calculadora.getTotalRendimentos())
+      .toBeCloseTo(1250.50, 2);
+    expect(calculadora.getRendimentos())
+      .toEqual([
+        ['Salario', 500.0],
+        ['Aluguel', 750.50]
+      ]);
+  });
+  
+  
+  it('Cadastra três rendimentos', () => {
+    const calculadora = new CalculadoraIRPF();
+  
+    calculadora.cadastraRedimento('Salario', 500.0);
+    calculadora.cadastraRedimento('Aluguel', 750.50);
+    calculadora.cadastraRedimento('Ação', 1550.50);
+  
+    expect(calculadora.getTotalRendimentos())
+      .toBeCloseTo(2801.0, 2);
+    expect(calculadora.getRendimentos())
+      .toEqual([
+        ['Salario', 500.0],
+        ['Aluguel', 750.50],
+        ['Ação', 1550.50]
+      ])
+  });
 
 
-test('Cadastra dois rendimentos', () => {
-  const calculadora = new CalculadoraIRPF();
-
-  calculadora.cadastraRedimento('Salario', 500.0);
-  calculadora.cadastraRedimento('Aluguel', 750.50);
-
-  expect(calculadora.getTotalRendimentos())
-    .toBeCloseTo(1250.50, 2);
-  expect(calculadora.getRendimentos())
-    .toEqual([
-      ['Salario', 500.0],
-      ['Aluguel', 750.50]
+  it.each<[[string, number][], number]>([
+      [[['Salario', 100], ['Aluguel', 500], ['Ação', 800.5], ['Dividendos', 800.1]], 2200.6],
+      [[['Lucros', 987.64], ['Aluguel', 0.01]], 987.65],
     ])
-});
+    ('cadastra rendimentos %p total %p', (rendimentos: [string, number][], total: number) => {
+      const calculadora = new CalculadoraIRPF();
+      
+      rendimentos.forEach(([nome, valor]) => calculadora.cadastraRedimento(nome, valor))
+      
+      expect(calculadora.getTotalRendimentos())
+        .toBeCloseTo(total, 2);
+      expect(calculadora.getRendimentos())
+        .toEqual(rendimentos);
+    });
 
-
-test('Cadastra três rendimentos', () => {
-  const calculadora = new CalculadoraIRPF();
-
-  calculadora.cadastraRedimento('Salario', 500.0);
-  calculadora.cadastraRedimento('Aluguel', 750.50);
-  calculadora.cadastraRedimento('Ação', 1550.50);
-
-  expect(calculadora.getTotalRendimentos())
-    .toBeCloseTo(2801.0, 2);
-  expect(calculadora.getRendimentos())
-    .toEqual([
-      ['Salario', 500.0],
-      ['Aluguel', 750.50],
-      ['Ação', 1550.50]
-    ])
 });
