@@ -144,4 +144,12 @@ describe('CalculadoraIRPF', () => {
         .toEqual(deducoes);
     });
 
+    it.each([[null], [''], [' ']])
+    ('lança exceção quando nome da deducao está em branco', (nome: string | null) => {
+      const calculadora = new CalculadoraIRPF();
+
+      expect(() => {
+        calculadora.cadastrandoDed(nome as string, 500);
+      }).toThrow(DescricaoEmBrancoException);
+  });
 });
