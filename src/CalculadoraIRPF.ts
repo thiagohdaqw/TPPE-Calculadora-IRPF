@@ -1,17 +1,16 @@
 import DescricaoEmBrancoException from "./excecoes/DescricaoEmBrancoException";
 import ValorRendimentoInvalidoException from "./excecoes/ValorRendimentoInvalidoException";
 import Rendimento from "./Rendimento";
+import Deducao from "./Deducao";
 
 
 export default class CalculadoraIRPF {
     rendimentos: Rendimento[];
-    nomeDed: string[];
-    valorDed: number[];
+    deducoes: Deducao[];
 
     constructor() {
         this.rendimentos = [];
-        this.nomeDed = [];
-        this.valorDed = [];
+        this.deducoes = [];
     }
 
     cadastraRedimento(rendimento: string, valor: number) {
@@ -35,17 +34,17 @@ export default class CalculadoraIRPF {
             .map(rendimento => [rendimento.nome, rendimento.valor]);
     }
 
-    cadastrandoDed(descricao_deducoes: string, valor_ded: number) {
-        this.nomeDed.push(descricao_deducoes);
-        this.valorDed.push(valor_ded);
+    cadastrandoDed(deducao: string, valor: number) {
+        this.deducoes.push(new Deducao(deducao, valor));
     }
 
     getTotalDed(): number {
-        return this.valorDed.reduce((soma, valor) => soma + valor, 0);
+        return this.deducoes
+            .reduce((soma, deducao) => soma + deducao.valor, 0);
     }
 
     getDed(): [string, number][] {
-        return this.nomeDed
-        .map((nome, index) => [nome, this.valorDed[index]]);
+        return this.deducoes
+        .map(deducao => [deducao.nome, deducao.valor]);
     }
 }

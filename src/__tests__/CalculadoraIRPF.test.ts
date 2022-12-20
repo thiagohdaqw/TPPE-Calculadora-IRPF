@@ -84,7 +84,7 @@ describe('CalculadoraIRPF', () => {
         }).toThrowError(ValorRendimentoInvalidoException);
     });
 
-    test('Cadastra primeira dedução de pensão alimentícia', () => {
+    it('Cadastra primeira dedução de pensão alimentícia', () => {
       const calculadora = new CalculadoraIRPF();
     
       calculadora.cadastrandoDed('Pensão alimentícia', 200.0);
@@ -95,7 +95,7 @@ describe('CalculadoraIRPF', () => {
         .toEqual([['Pensão alimentícia', 200.0]]);
     });
 
-    test('Cadastra segunda dedução de pensão alimentícia', () => {
+    it('Cadastra segunda dedução de pensão alimentícia', () => {
       const calculadora = new CalculadoraIRPF();
     
       calculadora.cadastrandoDed('Pensão alimentícia', 200.0);
@@ -111,7 +111,7 @@ describe('CalculadoraIRPF', () => {
     });
 
 
-    test('Cadastra terceira dedução de pensão alimentícia', () => {
+    it('Cadastra terceira dedução de pensão alimentícia', () => {
       const calculadora = new CalculadoraIRPF();
     
       calculadora.cadastrandoDed('Pensão alimentícia', 200.0);
@@ -126,6 +126,22 @@ describe('CalculadoraIRPF', () => {
           ['Valores pagos via carnê-leão', 120.0],
           ['Fundo de Previdência dos Servidores públicos (Funpresp)', 610.0]
         ]);
+    });
+
+    it.each<[[string, number][], number]>([
+      [[['Pensão alimentícia', 200], ['Valores pagos via carnê-leão', 90], ['Previdência privada', 800], ['Fundo de Previdência dos Servidores públicos (Funpresp)', 405.30]], 1495.3],
+      [[['Pensão alimentícia', 902.14], ['Previdência privada', 290.01]], 1192.15],
+      [[['Fundo de Previdência dos Servidores públicos (Funpresp)', 534.25]], 534.25],
+    ])
+    ('Cadastra deducao %p total %p', (deducoes: [string, number][], total: number) => {
+      const calculadora = new CalculadoraIRPF();
+      
+      deducoes.forEach(([nome, valor]) => calculadora.cadastrandoDed(nome, valor))
+      
+      expect(calculadora.getTotalDed())
+        .toBeCloseTo(total, 2);
+      expect(calculadora.getDed())
+        .toEqual(deducoes);
     });
 
 });
