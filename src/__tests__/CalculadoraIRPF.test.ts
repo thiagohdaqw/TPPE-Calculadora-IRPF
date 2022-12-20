@@ -66,20 +66,21 @@ describe('CalculadoraIRPF', () => {
     });
 
 
-    it('lança exceção quando nome do rendimento está em branco', () => {
-      const calculadora = new CalculadoraIRPF();
+    it.each([[null], [''], [' ']])
+      ('lança exceção quando nome do rendimento está em branco', (nome: string | null) => {
+        const calculadora = new CalculadoraIRPF();
 
-      expect(() => {
-        calculadora.cadastraRedimento('  ', 500);
-      }).toThrow(DescricaoEmBrancoException);
+        expect(() => {
+          calculadora.cadastraRedimento(nome as string, 500);
+        }).toThrow(DescricaoEmBrancoException);
     });
 
     it.each([[null], [-1], [-10000]])
       ('lança exceção quando valor do rendimento é invalido: %p', (valor: number | null) => {
-      const calculadora = new CalculadoraIRPF();
-      
-      expect(() => {
-        calculadora.cadastraRedimento('Salario', valor as number)
-      }).toThrowError(ValorRendimentoInvalidoException);
+        const calculadora = new CalculadoraIRPF();
+        
+        expect(() => {
+          calculadora.cadastraRedimento('Salario', valor as number)
+        }).toThrowError(ValorRendimentoInvalidoException);
     });
 });

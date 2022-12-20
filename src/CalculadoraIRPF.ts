@@ -11,7 +11,7 @@ export default class CalculadoraIRPF {
     }
 
     cadastraRedimento(rendimento: string, valor: number) {
-        if (rendimento?.trim().length === 0) {
+        if (rendimento == null || rendimento.trim().length == 0) {
             throw new DescricaoEmBrancoException('O nome do rendimento não pode ser em branco');
         }
         if (valor === null || valor < 0) {
