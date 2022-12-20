@@ -84,7 +84,7 @@ describe('CalculadoraIRPF', () => {
         }).toThrowError(ValorRendimentoInvalidoException);
     });
 
-    test('Cadastra dedução de pensão alimentícia', () => {
+    test('Cadastra primeira dedução de pensão alimentícia', () => {
       const calculadora = new CalculadoraIRPF();
     
       calculadora.cadastrandoDed('Pensão alimentícia', 200.0);
@@ -95,7 +95,7 @@ describe('CalculadoraIRPF', () => {
         .toEqual([['Pensão alimentícia', 200.0]]);
     });
 
-    test('Cadastrando outra dedução de pensão alimentícia', () => {
+    test('Cadastra segunda dedução de pensão alimentícia', () => {
       const calculadora = new CalculadoraIRPF();
     
       calculadora.cadastrandoDed('Pensão alimentícia', 200.0);
@@ -107,6 +107,24 @@ describe('CalculadoraIRPF', () => {
         .toEqual([
           ['Pensão alimentícia', 200.0],
           ['Valores pagos via carnê-leão', 120.0]
+        ]);
+    });
+
+
+    test('Cadastra terceira dedução de pensão alimentícia', () => {
+      const calculadora = new CalculadoraIRPF();
+    
+      calculadora.cadastrandoDed('Pensão alimentícia', 200.0);
+      calculadora.cadastrandoDed('Valores pagos via carnê-leão', 120.0);
+      calculadora.cadastrandoDed('Fundo de Previdência dos Servidores públicos (Funpresp)', 610.0);
+    
+      expect(calculadora.getTotalDed())
+        .toBeCloseTo(930.0, 2);
+      expect(calculadora.getDed())
+        .toEqual([
+          ['Pensão alimentícia', 200.0],
+          ['Valores pagos via carnê-leão', 120.0],
+          ['Fundo de Previdência dos Servidores públicos (Funpresp)', 610.0]
         ]);
     });
 

@@ -41,16 +41,11 @@ export default class CalculadoraIRPF {
     }
 
     getTotalDed(): number {
-        return this.valorDed[0] + (this.valorDed[1] ?? 0);
+        return this.valorDed.reduce((soma, valor) => soma + valor, 0);
     }
 
     getDed(): [string, number][] {
-        if (this.nomeDed.length === 1) {
-            return [[this.nomeDed[0], this.valorDed[0]]]
-        }
-        return [
-            [this.nomeDed[0], this.valorDed[0]],
-            [this.nomeDed[1], this.valorDed[1]]
-        ]
+        return this.nomeDed
+        .map((nome, index) => [nome, this.valorDed[index]]);
     }
 }
