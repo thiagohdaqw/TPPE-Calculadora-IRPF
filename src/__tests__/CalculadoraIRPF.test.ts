@@ -159,4 +159,21 @@ describe('CalculadoraIRPF', () => {
         ['Contribuicao no contracheque IPREV', 500.3]
       ]);
   });
+
+  it.each<[[string, number][], number]>([
+    [[['Contribuicao no contracheque', 430], ['Contribuição via carnê INSS', 490], ['Contribuicao no contracheque IPREV', 300]], 1220.0],
+    [[['Contribuição via carnê INSS', 560.14], ['Contribuicao no contracheque', 370.01]], 930.15],
+    [[['Contribuição via carnê INSS', 700.25]], 700.25],
+  ])
+  ('Cadastra contribuicao previdenciaria %p total %p', (contribuicoes: [string, number][], total: number) => {
+    const calculadora = new CalculadoraIRPF();
+
+    contribuicoes.forEach(([nome, valor]) => calculadora.cadastraContribuicaoPrevidenciaria(nome, valor))
+
+    expect(calculadora.getTotalContribuicaoPrevidenciaria())
+      .toBeCloseTo(total, 2);
+    expect(calculadora.getContribuicaoPrevidenciaria())
+      .toEqual(contribuicoes);
+  });
+
 });
