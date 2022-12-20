@@ -15,17 +15,12 @@ export default class CalculadoraIRPF {
     }
 
     getTotalRendimentos(): number {
-        return this.valorRendimentos[0] + (this.valorRendimentos[1] ?? 0);
+        return this.valorRendimentos
+            .reduce((soma, valor) => soma + valor, 0);
     }
 
     getRendimentos(): [string, number][] {
-        if (this.nomeRendimentos.length === 1) {
-            return [[this.nomeRendimentos[0], this.valorRendimentos[0]]]
-        }
-
-        return [
-            [this.nomeRendimentos[0], this.valorRendimentos[0]],
-            [this.nomeRendimentos[1], this.valorRendimentos[1]]
-        ];
+        return this.nomeRendimentos
+            .map((nome, index) => [nome, this.valorRendimentos[index]]);
     }
 }
