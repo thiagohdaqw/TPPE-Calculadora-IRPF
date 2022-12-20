@@ -149,7 +149,7 @@ describe('CalculadoraIRPF', () => {
       const calculadora = new CalculadoraIRPF();
 
       expect(() => {
-        calculadora.cadastrandoDed(nome as string, 500);
+        calculadora.cadastrandoDed(' ', 500);
       }).toThrow(DescricaoEmBrancoException);
   });
 });

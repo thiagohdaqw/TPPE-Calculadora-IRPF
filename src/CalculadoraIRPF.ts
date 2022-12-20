@@ -35,6 +35,10 @@ export default class CalculadoraIRPF {
     }
 
     cadastrandoDed(deducao: string, valor: number) {
+        if (deducao?.trim().length === 0) {
+            throw new DescricaoEmBrancoException('O nome da deducao não pode ser em branco');
+        }
+
         this.deducoes.push(new Deducao(deducao, valor));
     }
 
