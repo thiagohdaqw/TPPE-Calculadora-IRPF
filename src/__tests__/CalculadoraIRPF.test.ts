@@ -1,5 +1,6 @@
 import CalculadoraIRPF from '../CalculadoraIRPF';
 import DescricaoEmBrancoException from '../excecoes/DescricaoEmBrancoException';
+import ValorRendimentoInvalidoException from '../excecoes/ValorRendimentoInvalidoException';
 
 describe('CalculadoraIRPF', () => {
 
@@ -71,5 +72,14 @@ describe('CalculadoraIRPF', () => {
       expect(() => {
         calculadora.cadastraRedimento('  ', 500);
       }).toThrow(DescricaoEmBrancoException);
-    })
+    });
+
+    it.each([[null], [-1], [-10000]])
+      ('lança exceção quando valor do rendimento é invalido: %p', (valor: number | null) => {
+      const calculadora = new CalculadoraIRPF();
+      
+      expect(() => {
+        calculadora.cadastraRedimento('Salario', valor as number)
+      }).toThrowError(ValorRendimentoInvalidoException);
+    });
 });
