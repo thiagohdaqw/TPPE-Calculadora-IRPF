@@ -95,4 +95,19 @@ describe('CalculadoraIRPF', () => {
         .toEqual([['Pensão alimentícia', 200.0]]);
     });
 
+    test('Cadastrando outra dedução de pensão alimentícia', () => {
+      const calculadora = new CalculadoraIRPF();
+    
+      calculadora.cadastrandoDed('Pensão alimentícia', 200.0);
+      calculadora.cadastrandoDed('Valores pagos via carnê-leão', 120.0);
+    
+      expect(calculadora.getTotalDed())
+        .toBeCloseTo(320.0, 2);
+      expect(calculadora.getDed())
+        .toEqual([
+          ['Pensão alimentícia', 200.0],
+          ['Valores pagos via carnê-leão', 120.0]
+        ]);
+    });
+
 });

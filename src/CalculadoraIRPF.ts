@@ -5,11 +5,13 @@ import Rendimento from "./Rendimento";
 
 export default class CalculadoraIRPF {
     rendimentos: Rendimento[];
-    descricao_deducoes: string;
-    valor_ded: number;
+    nomeDed: string[];
+    valorDed: number[];
 
     constructor() {
         this.rendimentos = [];
+        this.nomeDed = [];
+        this.valorDed = [];
     }
 
     cadastraRedimento(rendimento: string, valor: number) {
@@ -34,18 +36,21 @@ export default class CalculadoraIRPF {
     }
 
     cadastrandoDed(descricao_deducoes: string, valor_ded: number) {
-        this.descricao_deducoes = descricao_deducoes;
-        this.valor_ded = valor_ded;
+        this.nomeDed.push(descricao_deducoes);
+        this.valorDed.push(valor_ded);
     }
 
     getTotalDed(): number {
-        return 200;
+        return this.valorDed[0] + (this.valorDed[1] ?? 0);
     }
 
-    getDed(): [[string, number]] {
+    getDed(): [string, number][] {
+        if (this.nomeDed.length === 1) {
+            return [[this.nomeDed[0], this.valorDed[0]]]
+        }
         return [
-            ['Pensão alimentícia', 200.0]
+            [this.nomeDed[0], this.valorDed[0]],
+            [this.nomeDed[1], this.valorDed[1]]
         ]
     }
-
 }
