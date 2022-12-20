@@ -1,5 +1,6 @@
 import DescricaoEmBrancoException from "./excecoes/DescricaoEmBrancoException";
 import ValorRendimentoInvalidoException from "./excecoes/ValorRendimentoInvalidoException";
+import ValorDeducaoInvalidoException from "./excecoes/ValorDeducaoInvalidoException";
 import Rendimento from "./Rendimento";
 import Deducao from "./Deducao";
 
@@ -37,6 +38,10 @@ export default class CalculadoraIRPF {
     cadastrandoDed(deducao: string, valor: number) {
         if (deducao?.trim().length === 0) {
             throw new DescricaoEmBrancoException('O nome da deducao não pode ser em branco');
+        }
+
+        if (valor === null || valor < 0) {
+            throw new ValorDeducaoInvalidoException('O valor da deducao deve ser maior ou igual a 0');
         }
 
         this.deducoes.push(new Deducao(deducao, valor));
