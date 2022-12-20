@@ -170,7 +170,7 @@ describe('CalculadoraIRPF', () => {
 
     expect(calculadora.getTotalContribuicaoPrevidenciaria())
       .toBeCloseTo(100.0, 2);
-    expect(calculadora.getContrbuicaoPrevidenciaria())
+    expect(calculadora.getContribuicaoPrevidenciaria())
       .toEqual([['Contribuicao no contracheque', 100.0]]);
   });
 

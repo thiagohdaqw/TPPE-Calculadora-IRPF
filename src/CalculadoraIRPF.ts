@@ -8,6 +8,8 @@ import Deducao from "./Deducao";
 export default class CalculadoraIRPF {
     rendimentos: Rendimento[];
     deducoes: Deducao[];
+    descricao_contribuicao: string;
+    valor_contribuicao: number;
 
     constructor() {
         this.rendimentos = [];
@@ -55,5 +57,20 @@ export default class CalculadoraIRPF {
     getDed(): [string, number][] {
         return this.deducoes
         .map(deducao => [deducao.nome, deducao.valor]);
+    }
+
+    cadastraContribuicaoPrevidenciaria(descricao_contribuicao: string, valor_contribuicao: number) {
+        this.descricao_contribuicao = descricao_contribuicao;
+        this.valor_contribuicao = valor_contribuicao;
+    }
+
+    getTotalContribuicaoPrevidenciaria(): number {
+        return 100;
+    }
+
+    getContribuicaoPrevidenciaria(): [[string, number]] {
+        return [
+            ['Contribuicao no contracheque', 100.0]
+        ]
     }
 }
