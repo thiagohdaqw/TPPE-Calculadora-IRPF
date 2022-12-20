@@ -128,4 +128,19 @@ describe('CalculadoraIRPF', () => {
       .toEqual([['Contribuicao no contracheque', 100.0]]);
   });
 
+  test('Cadastra segunda contribuição previdenciária oficial no contracheque', () => {
+    const calculadora = new CalculadoraIRPF();
+
+    calculadora.cadastraContribuicaoPrevidenciaria('Contribuicao no contracheque', 100.0);
+    calculadora.cadastraContribuicaoPrevidenciaria('Contribuição via carnê INSS', 130.0);
+
+    expect(calculadora.getTotalContribuicaoPrevidenciaria())
+      .toBeCloseTo(230.0, 2);
+    expect(calculadora.getContribuicaoPrevidenciaria())
+      .toEqual([
+        ['Contribuicao no contracheque', 100.0],
+        ['Contribuição via carnê INSS', 130.0]
+      ]);
+  });
+
 });
