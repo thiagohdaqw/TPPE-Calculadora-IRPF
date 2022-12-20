@@ -1,3 +1,4 @@
+import DescricaoEmBrancoException from "./excecoes/DescricaoEmBrancoException";
 import Rendimento from "./Rendimento";
 
 
@@ -9,6 +10,10 @@ export default class CalculadoraIRPF {
     }
 
     cadastraRedimento(rendimento: string, valor: number) {
+        if (rendimento?.trim().length === 0) {
+            throw new DescricaoEmBrancoException('O nome do rendimento não pode ser em branco');
+        }
+
         this.rendimentos.push(new Rendimento(rendimento, valor));
     }
 

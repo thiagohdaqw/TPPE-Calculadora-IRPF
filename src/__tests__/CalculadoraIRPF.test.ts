@@ -1,4 +1,5 @@
 import CalculadoraIRPF from '../CalculadoraIRPF';
+import DescricaoEmBrancoException from '../excecoes/DescricaoEmBrancoException';
 
 describe('CalculadoraIRPF', () => {
 
@@ -63,4 +64,12 @@ describe('CalculadoraIRPF', () => {
         .toEqual(rendimentos);
     });
 
+
+    it('lança exceção quando nome do rendimento está em branco', () => {
+      const calculadora = new CalculadoraIRPF();
+
+      expect(() => {
+        calculadora.cadastraRedimento('  ', 500);
+      }).toThrow(DescricaoEmBrancoException);
+    })
 });
