@@ -3,6 +3,7 @@ import DescricaoEmBrancoException from '../excecoes/DescricaoEmBrancoException';
 import ValorRendimentoInvalidoException from '../excecoes/ValorRendimentoInvalidoException';
 import ValorDeducaoInvalidoException from '../excecoes/ValorDeducaoInvalidoException';
 import ValorContribuicaoInvalidoException from '../excecoes/ValorContribuicaoInvalidoException';
+import ValorPensaoInvalidoException from '../excecoes/ValorPensaoInvalidoException';
 
 describe('CalculadoraIRPF', () => {
 
@@ -209,5 +210,22 @@ describe('CalculadoraIRPF', () => {
     expect(calculadora.getPensaoAlimenticia())
       .toEqual(pensoes);
   });
+
+  it('lança exceção quando nome da pensao está em branco', () => {
+    const calculadora = new CalculadoraIRPF();
+
+    expect(() => {
+      calculadora.cadastraPensaoAlimenticia('  ', 500);
+    }).toThrow(DescricaoEmBrancoException);
+  })
+
+  it.each([[null], [-1], [-10000]])
+  ('lança exceção quando valor da pensao é invalida: %p', (valor: number | null) => {
+  const calculadora = new CalculadoraIRPF();
+
+  expect(() => {
+    calculadora.cadastraPensaoAlimenticia('Pensao filha Julia', valor as number)
+  }).toThrowError(ValorPensaoInvalidoException);
+});
 
 });
