@@ -61,15 +61,22 @@ export default class CalculadoraIRPF {
     }
 
     cadastraContribuicaoPrevidenciaria(contribuicao: string, valor: number) {
+        if (contribuicao?.trim().length === 0) {
+            throw new DescricaoEmBrancoException('O nome da contribuicao não pode ser em branco');
+        }
+        
         this.contribuicoes.push(new ContribuicaoPrevidenciaria(contribuicao, valor));
     }
 
     getTotalContribuicaoPrevidenciaria(): number {
+
+
         return this.contribuicoes
             .reduce((soma, contribuicao) => soma + contribuicao.valor, 0);
     }
 
     getContribuicaoPrevidenciaria(): [string, number][] {
+
         return this.contribuicoes
         .map(contribuicao => [contribuicao.nome, contribuicao.valor]);
     }
