@@ -1,10 +1,10 @@
 import DescricaoEmBrancoException from "./excecoes/DescricaoEmBrancoException";
 import ValorRendimentoInvalidoException from "./excecoes/ValorRendimentoInvalidoException";
 import ValorDeducaoInvalidoException from "./excecoes/ValorDeducaoInvalidoException";
+import ValorContribuicaoInvalidoException from "./excecoes/ValorContribuicaoInvalidoException";
 import Rendimento from "./Rendimento";
 import Deducao from "./Deducao";
 import ContribuicaoPrevidenciaria from "./ContribuicaoPrevidenciaria";
-
 
 export default class CalculadoraIRPF {
     rendimentos: Rendimento[];
@@ -64,7 +64,11 @@ export default class CalculadoraIRPF {
         if (contribuicao?.trim().length === 0) {
             throw new DescricaoEmBrancoException('O nome da contribuicao não pode ser em branco');
         }
-        
+
+        if (valor === null || valor < 0) {
+            throw new ValorContribuicaoInvalidoException('O valor da contribuicao deve ser maior ou igual a 0');
+        }
+
         this.contribuicoes.push(new ContribuicaoPrevidenciaria(contribuicao, valor));
     }
 

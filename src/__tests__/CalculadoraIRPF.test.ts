@@ -2,6 +2,7 @@ import CalculadoraIRPF from '../CalculadoraIRPF';
 import DescricaoEmBrancoException from '../excecoes/DescricaoEmBrancoException';
 import ValorRendimentoInvalidoException from '../excecoes/ValorRendimentoInvalidoException';
 import ValorDeducaoInvalidoException from '../excecoes/ValorDeducaoInvalidoException';
+import ValorContribuicaoInvalidoException from '../excecoes/ValorContribuicaoInvalidoException';
 
 describe('CalculadoraIRPF', () => {
 
@@ -183,5 +184,14 @@ describe('CalculadoraIRPF', () => {
       calculadora.cadastraContribuicaoPrevidenciaria('  ', 500);
     }).toThrow(DescricaoEmBrancoException);
   })
+
+  it.each([[null], [-1], [-10000]])
+  ('lança exceção quando valor da contribuicao é invalida: %p', (valor: number | null) => {
+  const calculadora = new CalculadoraIRPF();
+
+  expect(() => {
+    calculadora.cadastraContribuicaoPrevidenciaria('Contribuicao no contracheque', valor as number)
+  }).toThrowError(ValorContribuicaoInvalidoException);
+});
 
 });
