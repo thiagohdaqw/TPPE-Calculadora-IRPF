@@ -2,6 +2,7 @@ import DescricaoEmBrancoException from "./excecoes/DescricaoEmBrancoException";
 import ValorRendimentoInvalidoException from "./excecoes/ValorRendimentoInvalidoException";
 import ValorDeducaoInvalidoException from "./excecoes/ValorDeducaoInvalidoException";
 import ValorContribuicaoInvalidoException from "./excecoes/ValorContribuicaoInvalidoException";
+import ValorPensaoInvalidoException from "./excecoes/ValorPensaoInvalidoException";
 import Rendimento from "./Rendimento";
 import Deducao from "./Deducao";
 import ContribuicaoPrevidenciaria from "./ContribuicaoPrevidenciaria";
@@ -90,6 +91,14 @@ export default class CalculadoraIRPF {
 
 
     cadastraPensaoAlimenticia(pensao: string, valor: number) {
+        if (pensao?.trim().length === 0) {
+            throw new DescricaoEmBrancoException('O nome da pensao não pode ser em branco');
+        }
+
+        if (valor === null || valor < 0) {
+            throw new ValorPensaoInvalidoException('O valor da pensao deve ser maior ou igual a 0');
+        }
+
         this.pensoes.push(new PensaoAlimenticia(pensao, valor));
     }
 
