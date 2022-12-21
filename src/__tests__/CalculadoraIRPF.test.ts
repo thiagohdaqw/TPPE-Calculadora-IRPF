@@ -241,7 +241,7 @@ test('Cadastra um dependente', () => {
     .toEqual([['João', '05/05/1999']]);
 });
 
-test('Cadastra mais um dependente', () => {
+test('Cadastra dois dependentes', () => {
   const calculadora = new CalculadoraIRPF();
 
   calculadora.cadastrarDependente('João', '05/05/1999');
@@ -255,6 +255,25 @@ test('Cadastra mais um dependente', () => {
     .toEqual([
       ['João', '05/05/1999'],
       ['Pedro', '01/01/1999']
+    ]);
+});
+
+test('Cadastra três dependentes', () => {
+  const calculadora = new CalculadoraIRPF();
+
+  calculadora.cadastrarDependente('João', '05/05/1999');
+  calculadora.cadastrarDependente('Pedro', '01/01/1999');
+  calculadora.cadastrarDependente('Ana', '03/03/2000');
+
+  expect(calculadora.getTotalDependentes())
+    .toBeCloseTo(3, 1);
+  expect(calculadora.getValorTotalDependentes())
+    .toBeCloseTo(568.77, 1);
+  expect(calculadora.getDependentes())
+    .toEqual([
+      ['João', '05/05/1999'],
+      ['Pedro', '01/01/1999'],
+      ['Ana', '03/03/2000']
     ]);
 });
 

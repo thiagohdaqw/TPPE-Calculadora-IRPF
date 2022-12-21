@@ -123,23 +123,17 @@ export default class CalculadoraIRPF {
     }
 
     getTotalDependentes(): number {
-        return 1 + (this.nomeDependente[1] ? 1 : 0)
+        return this.nomeDependente.length
     }
 
     getValorTotalDependentes(): number {
-        return 189.59 + (this.nomeDependente[1] ? 189.59 : 0)
+        return this.nomeDependente.length * 189.59
     }
 
     getDependentes(): [string, string][] {
 
-      if (this.nomeDependente.length === 1) {
-        return [[this.nomeDependente[0], this.dataNascimentoDependente[0]]]
-      }
-
-      return [
-          [this.nomeDependente[0], this.dataNascimentoDependente[0]],
-          [this.nomeDependente[1], this.dataNascimentoDependente[1]]]
-
+      return this.nomeDependente
+            .map((nome, index) => [nome, this.dataNascimentoDependente[index]]);
     }
 
 }
