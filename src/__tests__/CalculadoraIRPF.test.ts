@@ -228,4 +228,17 @@ describe('CalculadoraIRPF', () => {
   }).toThrowError(ValorPensaoInvalidoException);
 });
 
+test('Cadastra um dependente', () => {
+  const calculadora = new CalculadoraIRPF();
+
+  calculadora.cadastrarDependente('João', '05/05/1999');
+
+  expect(calculadora.getTotalDependentes())
+    .toBeCloseTo(1, 1);
+  expect(calculadora.getValorTotalDependentes())
+    .toBeCloseTo(189.59, 1);
+  expect(calculadora.getDependentes())
+    .toEqual([['João', '05/05/1999']]);
+});
+
 });

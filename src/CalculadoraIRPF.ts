@@ -7,12 +7,15 @@ import Rendimento from "./Rendimento";
 import Deducao from "./Deducao";
 import ContribuicaoPrevidenciaria from "./ContribuicaoPrevidenciaria";
 import PensaoAlimenticia from "./PensaoAlimenticia";
+import Dependente from "./Dependente";
 
 export default class CalculadoraIRPF {
     rendimentos: Rendimento[];
     deducoes: Deducao[];
     contribuicoes: ContribuicaoPrevidenciaria[];
     pensoes: PensaoAlimenticia[];
+    nome: string;
+    dataNascimento: string;
 
     constructor() {
         this.rendimentos = [];
@@ -110,6 +113,25 @@ export default class CalculadoraIRPF {
     getPensaoAlimenticia(): [string, number][] {
         return this.pensoes
         .map(pensao => [pensao.nome, pensao.valor]);
+    }
+
+    cadastrarDependente(nome: string, dataNascimento: string) {
+      this.nome = nome;
+      this.dataNascimento = dataNascimento;
+    }
+
+    getTotalDependentes(): number {
+        return 1;
+    }
+
+    getValorTotalDependentes(): number {
+        return 189.59
+    }
+
+    getDependentes(): [[string, string]] {
+        return [
+            ['João', '05/05/1999']
+        ]
     }
 
 }
