@@ -294,11 +294,12 @@ it.each<[[string, string][], number]>([
       .toBeCloseTo(dependentes.length, 1);
   });
 
-  it('lança exceção quando nome do dependente está em branco', () => {
+  it.each([[null], [''], [' ']])
+  ('lança exceção quando nome do dependente está em branco', (nome: string | null) => {
     const calculadora = new CalculadoraIRPF();
 
     expect(() => {
-      calculadora.cadastrarDependente('  ', '01/01/2001');
+      calculadora.cadastrarDependente(nome as string, '01/01/2001');
     }).toThrow(NomeEmBrancoException);
   })
 
