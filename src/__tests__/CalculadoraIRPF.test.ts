@@ -229,55 +229,6 @@ describe('CalculadoraIRPF', () => {
   }).toThrowError(ValorPensaoInvalidoException);
 });
 
-it('Cadastra um dependente', () => {
-  const calculadora = new CalculadoraIRPF();
-
-  calculadora.cadastrarDependente('João', '05/05/1999');
-
-  expect(calculadora.getTotalDependentes())
-    .toBeCloseTo(1, 1);
-  expect(calculadora.getValorTotalDependentes())
-    .toBeCloseTo(189.59, 1);
-  expect(calculadora.getDependentes())
-    .toEqual([['João', '05/05/1999']]);
-});
-
-it('Cadastra dois dependentes', () => {
-  const calculadora = new CalculadoraIRPF();
-
-  calculadora.cadastrarDependente('João', '05/05/1999');
-  calculadora.cadastrarDependente('Pedro', '01/01/1999');
-
-  expect(calculadora.getTotalDependentes())
-    .toBeCloseTo(2, 1);
-  expect(calculadora.getValorTotalDependentes())
-    .toBeCloseTo(379.18, 1);
-  expect(calculadora.getDependentes())
-    .toEqual([
-      ['João', '05/05/1999'],
-      ['Pedro', '01/01/1999']
-    ]);
-});
-
-it('Cadastra três dependentes', () => {
-  const calculadora = new CalculadoraIRPF();
-
-  calculadora.cadastrarDependente('João', '05/05/1999');
-  calculadora.cadastrarDependente('Pedro', '01/01/1999');
-  calculadora.cadastrarDependente('Ana', '03/03/2000');
-
-  expect(calculadora.getTotalDependentes())
-    .toBeCloseTo(3, 1);
-  expect(calculadora.getValorTotalDependentes())
-    .toBeCloseTo(568.77, 1);
-  expect(calculadora.getDependentes())
-    .toEqual([
-      ['João', '05/05/1999'],
-      ['Pedro', '01/01/1999'],
-      ['Ana', '03/03/2000']
-    ]);
-});
-
 it.each<[[string, string][], number]>([
   [[['André', '12/12/1990'], ['Camila', '08/11/2001'], ['Flávia', '04/09/1998'], ['Antônio', '05/12/1960']], 758.36],
   [[['Arthur', '01/01/2001'], ['Andressa', '30/02/1999']], 379.18],])
