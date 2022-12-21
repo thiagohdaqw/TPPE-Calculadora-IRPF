@@ -176,4 +176,12 @@ describe('CalculadoraIRPF', () => {
       .toEqual(contribuicoes);
   });
 
+  it('lança exceção quando nome da contribuicao previdenciaria está em branco', () => {
+    const calculadora = new CalculadoraIRPF();
+
+    expect(() => {
+      calculadora.cadastraContribuicaoPrevidenciaria('  ', 500);
+    }).toThrow(DescricaoEmBrancoException);
+  })
+
 });
