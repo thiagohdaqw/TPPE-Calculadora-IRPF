@@ -4,6 +4,7 @@ import ValorRendimentoInvalidoException from '../excecoes/ValorRendimentoInvalid
 import ValorDeducaoInvalidoException from '../excecoes/ValorDeducaoInvalidoException';
 import ValorContribuicaoInvalidoException from '../excecoes/ValorContribuicaoInvalidoException';
 import ValorPensaoInvalidoException from '../excecoes/ValorPensaoInvalidoException';
+import NomeEmBrancoException from '../excecoes/NomeEmBrancoException';
 
 describe('CalculadoraIRPF', () => {
 
@@ -293,5 +294,12 @@ it.each<[[string, string][], number]>([
       .toBeCloseTo(dependentes.length, 1);
   });
 
+  it('lança exceção quando nome do dependente está em branco', () => {
+    const calculadora = new CalculadoraIRPF();
+
+    expect(() => {
+      calculadora.cadastrarDependente('  ', '01/01/2001');
+    }).toThrow(NomeEmBrancoException);
+  })
 
 });

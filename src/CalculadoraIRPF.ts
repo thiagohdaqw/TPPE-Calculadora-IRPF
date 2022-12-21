@@ -8,6 +8,7 @@ import Deducao from "./Deducao";
 import ContribuicaoPrevidenciaria from "./ContribuicaoPrevidenciaria";
 import PensaoAlimenticia from "./PensaoAlimenticia";
 import Dependente from "./Dependente";
+import NomeEmBrancoException from "./excecoes/NomeEmBrancoException";
 
 export default class CalculadoraIRPF {
     rendimentos: Rendimento[];
@@ -117,6 +118,9 @@ export default class CalculadoraIRPF {
     }
 
     cadastrarDependente(nome: string, dataNascimento: string) {
+      if (nome?.trim().length === 0) {
+        throw new NomeEmBrancoException('O nome do dependente não pode ser em branco');
+      }
       this.dependentes.push(new Dependente(nome, dataNascimento));
     }
 
