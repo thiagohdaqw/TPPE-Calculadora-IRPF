@@ -241,4 +241,21 @@ test('Cadastra um dependente', () => {
     .toEqual([['João', '05/05/1999']]);
 });
 
+test('Cadastra mais um dependente', () => {
+  const calculadora = new CalculadoraIRPF();
+
+  calculadora.cadastrarDependente('João', '05/05/1999');
+  calculadora.cadastrarDependente('Pedro', '01/01/1999');
+
+  expect(calculadora.getTotalDependentes())
+    .toBeCloseTo(2, 1);
+  expect(calculadora.getValorTotalDependentes())
+    .toBeCloseTo(379.18, 1);
+  expect(calculadora.getDependentes())
+    .toEqual([
+      ['João', '05/05/1999'],
+      ['Pedro', '01/01/1999']
+    ]);
+});
+
 });
