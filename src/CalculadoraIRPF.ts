@@ -14,16 +14,15 @@ export default class CalculadoraIRPF {
     deducoes: Deducao[];
     contribuicoes: ContribuicaoPrevidenciaria[];
     pensoes: PensaoAlimenticia[];
-    nomeDependente: string[];
-    dataNascimentoDependente: string[];
+    dependentes: Dependente[];
 
     constructor() {
         this.rendimentos = [];
         this.deducoes = [];
         this.contribuicoes = [];
         this.pensoes = [];
-        this.nomeDependente = [];
-        this.dataNascimentoDependente = [];
+        this.dependentes = [];
+
     }
 
     cadastraRedimento(rendimento: string, valor: number) {
@@ -118,22 +117,20 @@ export default class CalculadoraIRPF {
     }
 
     cadastrarDependente(nome: string, dataNascimento: string) {
-      this.nomeDependente.push(nome);
-      this.dataNascimentoDependente.push(dataNascimento);
+      this.dependentes.push(new Dependente(nome, dataNascimento));
     }
 
     getTotalDependentes(): number {
-        return this.nomeDependente.length
+        return this.dependentes.length
     }
 
     getValorTotalDependentes(): number {
-        return this.nomeDependente.length * 189.59
+        return this.dependentes.length * 189.59
     }
 
     getDependentes(): [string, string][] {
-
-      return this.nomeDependente
-            .map((nome, index) => [nome, this.dataNascimentoDependente[index]]);
+      return this.dependentes
+            .map((dependente) => [dependente.nome, dependente.dataNascimento]);
     }
 
 }

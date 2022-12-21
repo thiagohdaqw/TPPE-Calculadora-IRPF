@@ -228,7 +228,7 @@ describe('CalculadoraIRPF', () => {
   }).toThrowError(ValorPensaoInvalidoException);
 });
 
-test('Cadastra um dependente', () => {
+it('Cadastra um dependente', () => {
   const calculadora = new CalculadoraIRPF();
 
   calculadora.cadastrarDependente('João', '05/05/1999');
@@ -241,7 +241,7 @@ test('Cadastra um dependente', () => {
     .toEqual([['João', '05/05/1999']]);
 });
 
-test('Cadastra dois dependentes', () => {
+it('Cadastra dois dependentes', () => {
   const calculadora = new CalculadoraIRPF();
 
   calculadora.cadastrarDependente('João', '05/05/1999');
@@ -258,7 +258,7 @@ test('Cadastra dois dependentes', () => {
     ]);
 });
 
-test('Cadastra três dependentes', () => {
+it('Cadastra três dependentes', () => {
   const calculadora = new CalculadoraIRPF();
 
   calculadora.cadastrarDependente('João', '05/05/1999');
@@ -276,5 +276,22 @@ test('Cadastra três dependentes', () => {
       ['Ana', '03/03/2000']
     ]);
 });
+
+it.each<[[string, string][], number]>([
+  [[['André', '12/12/1990'], ['Camila', '08/11/2001'], ['Flávia', '04/09/1998'], ['Antônio', '05/12/1960']], 758.36],
+  [[['Arthur', '01/01/2001'], ['Andressa', '30/02/1999']], 379.18],])
+  ('cadastra dependentes %p total %p', (dependentes: [string, string][], total: number) => {
+    const calculadora = new CalculadoraIRPF();
+
+    dependentes.forEach(([nome, dataNascimento]) => calculadora.cadastrarDependente(nome, dataNascimento))
+
+    expect(calculadora.getValorTotalDependentes())
+      .toBeCloseTo(total, 1);
+    expect(calculadora.getDependentes())
+      .toEqual(dependentes);
+    expect(calculadora.getTotalDependentes())
+      .toBeCloseTo(dependentes.length, 1);
+  });
+
 
 });
