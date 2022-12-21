@@ -5,16 +5,19 @@ import ValorContribuicaoInvalidoException from "./excecoes/ValorContribuicaoInva
 import Rendimento from "./Rendimento";
 import Deducao from "./Deducao";
 import ContribuicaoPrevidenciaria from "./ContribuicaoPrevidenciaria";
+import PensaoAlimenticia from "./PensaoAlimenticia";
 
 export default class CalculadoraIRPF {
     rendimentos: Rendimento[];
     deducoes: Deducao[];
     contribuicoes: ContribuicaoPrevidenciaria[];
+    pensoes: PensaoAlimenticia[];
 
     constructor() {
         this.rendimentos = [];
         this.deducoes = [];
         this.contribuicoes = [];
+        this.pensoes = [];
     }
 
     cadastraRedimento(rendimento: string, valor: number) {
@@ -83,6 +86,21 @@ export default class CalculadoraIRPF {
 
         return this.contribuicoes
         .map(contribuicao => [contribuicao.nome, contribuicao.valor]);
+    }
+
+
+    cadastraPensaoAlimenticia(pensao: string, valor: number) {
+        this.pensoes.push(new PensaoAlimenticia(pensao, valor));
+    }
+
+    getTotalPensaoAlimenticia(): number {
+        return this.pensoes
+            .reduce((soma, pensao) => soma + pensao.valor, 0);
+    }
+
+    getPensaoAlimenticia(): [string, number][] {
+        return this.pensoes
+        .map(pensao => [pensao.nome, pensao.valor]);
     }
 
 }
