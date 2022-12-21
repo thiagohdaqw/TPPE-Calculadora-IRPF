@@ -194,4 +194,20 @@ describe('CalculadoraIRPF', () => {
   }).toThrowError(ValorContribuicaoInvalidoException);
 });
 
+  it.each<[[string, number][], number]>([
+    [[['Pensao filho Jose', 100.10], ['Pensao filho Joao', 200], ['Pensao filha Maria', 120]], 420.10],
+    [[['Pensao filho Carlos', 600.50], ['Pensao filha Julia', 600.50]], 1201],
+    [[['Pensao filho Matheus', 400.20]], 400.20],
+  ])
+  ('Cadastra pensao alimenticia %p total %p', (pensoes: [string, number][], total: number) => {
+    const calculadora = new CalculadoraIRPF();
+
+    pensoes.forEach(([nome, valor]) => calculadora.cadastraPensaoAlimenticia(nome, valor))
+
+    expect(calculadora.getTotalPensaoAlimenticia())
+      .toBeCloseTo(total, 2);
+    expect(calculadora.getPensaoAlimenticia())
+      .toEqual(pensoes);
+  });
+
 });
