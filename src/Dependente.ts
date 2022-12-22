@@ -1,11 +1,9 @@
-
-
 export default class Dependente {
-  nome: string;
-  dataNascimento: string;
+	nome: string;
+	dataNascimento: string;
 
-  constructor(nome: string, dataNascimento: string) {
-      this.nome = nome;
-      this.dataNascimento = dataNascimento;
-  }
+	constructor(nome: string, dataNascimento: string) {
+		this.nome = nome;
+		this.dataNascimento = dataNascimento;
+	}
 }

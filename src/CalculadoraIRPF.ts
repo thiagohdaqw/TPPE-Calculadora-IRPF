@@ -49,7 +49,7 @@ export default class CalculadoraIRPF {
             .map(rendimento => [rendimento.nome, rendimento.valor]);
     }
 
-    cadastrandoDed(deducao: string, valor: number) {
+    cadastraDeducao(deducao: string, valor: number) {
         if (deducao?.trim().length === 0) {
             throw new DescricaoEmBrancoException('O nome da deducao não pode ser em branco');
         }
@@ -61,14 +61,14 @@ export default class CalculadoraIRPF {
         this.deducoes.push(new Deducao(deducao, valor));
     }
 
-    getTotalDed(): number {
+    getTotalDeducoes(): number {
         return this.deducoes
             .reduce((soma, deducao) => soma + deducao.valor, 0);
     }
 
-    getDed(): [string, number][] {
+    getDeducoes(): [string, number][] {
         return this.deducoes
-        .map(deducao => [deducao.nome, deducao.valor]);
+            .map(deducao => [deducao.nome, deducao.valor]);
     }
 
     cadastraContribuicaoPrevidenciaria(contribuicao: string, valor: number) {
@@ -84,8 +84,6 @@ export default class CalculadoraIRPF {
     }
 
     getTotalContribuicaoPrevidenciaria(): number {
-
-
         return this.contribuicoes
             .reduce((soma, contribuicao) => soma + contribuicao.valor, 0);
     }
@@ -93,9 +91,8 @@ export default class CalculadoraIRPF {
     getContribuicaoPrevidenciaria(): [string, number][] {
 
         return this.contribuicoes
-        .map(contribuicao => [contribuicao.nome, contribuicao.valor]);
+            .map(contribuicao => [contribuicao.nome, contribuicao.valor]);
     }
-
 
     cadastraPensaoAlimenticia(pensao: string, valor: number) {
         if (pensao?.trim().length === 0) {
@@ -116,14 +113,14 @@ export default class CalculadoraIRPF {
 
     getPensaoAlimenticia(): [string, number][] {
         return this.pensoes
-        .map(pensao => [pensao.nome, pensao.valor]);
+            .map(pensao => [pensao.nome, pensao.valor]);
     }
 
-    cadastrarDependente(nome: string, dataNascimento: string) {
-      if (nome == null || nome?.trim().length == 0) {
-        throw new NomeEmBrancoException('O nome do dependente não pode ser em branco');
-      }
-      this.dependentes.push(new Dependente(nome, dataNascimento));
+    cadastraDependente(nome: string, dataNascimento: string) {
+        if (nome == null || nome?.trim().length == 0) {
+            throw new NomeEmBrancoException('O nome do dependente não pode ser em branco');
+        }
+        this.dependentes.push(new Dependente(nome, dataNascimento));
     }
 
     getTotalDependentes(): number {
@@ -135,16 +132,16 @@ export default class CalculadoraIRPF {
     }
 
     getDependentes(): [string, string][] {
-      return this.dependentes
+        return this.dependentes
             .map((dependente) => [dependente.nome, dependente.dataNascimento]);
     }
 
     getTotalBaseCalculo(): number {
-        return this.getTotalRendimentos() - this.getTotalDed() - this.getTotalContribuicaoPrevidenciaria() - this.getTotalDependentes();
+        return this.getTotalRendimentos() - this.getTotalDeducoes() - this.getTotalContribuicaoPrevidenciaria() - this.getTotalDependentes();
     }
 
     getTotalImposto(rendTributavel): number {
-		let imposto = 0;
+        let imposto = 0;
         let parteImposto = rendTributavel;
         let tamanhoFaixa1 = 1903.98;
         let tamanhoFaixa2 = 922.67;
@@ -155,36 +152,36 @@ export default class CalculadoraIRPF {
         let Faixa3 = parseFloat((parteImposto - (tamanhoFaixa1 + tamanhoFaixa2)).toFixed(2));
         let Faixa4 = parseFloat((parteImposto - (tamanhoFaixa1 + tamanhoFaixa2 + tamanhoFaixa3)).toFixed(2));
         let Faixa5 = parseFloat((parteImposto - (tamanhoFaixa1 + tamanhoFaixa2 + tamanhoFaixa3 + tamanhoFaixa4)).toFixed(2));
-        
+
         if (Faixa1 > 0) {
             imposto += Faixa1;
         }
         if (Faixa2 > 0) {
             if (Faixa2 <= tamanhoFaixa2) {
-                imposto += Faixa2*7.5/100;
+                imposto += Faixa2 * 7.5 / 100;
             }
             else {
-                imposto += tamanhoFaixa2*7.5/100;
+                imposto += tamanhoFaixa2 * 7.5 / 100;
             }
         }
         if (Faixa3 > 0) {
             if (Faixa3 <= tamanhoFaixa3) {
-                imposto += Faixa3*15/100;
+                imposto += Faixa3 * 15 / 100;
             }
             else {
-                imposto += tamanhoFaixa3*15/100;
+                imposto += tamanhoFaixa3 * 15 / 100;
             }
         }
         if (Faixa4 > 0) {
             if (Faixa4 <= tamanhoFaixa4) {
-                imposto += Faixa4*22.5/100;
+                imposto += Faixa4 * 22.5 / 100;
             }
             else {
-                imposto += tamanhoFaixa4*22.5/100;
+                imposto += tamanhoFaixa4 * 22.5 / 100;
             }
         }
         if (Faixa5 > 0) {
-            imposto += Faixa5*27.5/100;
+            imposto += Faixa5 * 27.5 / 100;
         }
         return imposto;
     }

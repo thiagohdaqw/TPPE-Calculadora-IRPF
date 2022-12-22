@@ -1,5 +1,3 @@
-
-
 export default class Rendimento {
     nome: string;
     valor: number;
