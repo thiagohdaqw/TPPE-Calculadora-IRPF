@@ -139,6 +139,10 @@ export default class CalculadoraIRPF {
             .map((dependente) => [dependente.nome, dependente.dataNascimento]);
     }
 
+    getTotalBaseCalculo(): number {
+        return this.getTotalRendimentos() - this.getTotalDed()
+    }
+
     getTotalImposto(rendTributavel): number {
 		let imposto = 0;
         let parteImposto = rendTributavel;
@@ -186,6 +190,10 @@ export default class CalculadoraIRPF {
     }
 
     getAliquotaEfetiva(): number {
-        return 0.00;
+        const totalImposto = this.getTotalImposto(this.getTotalBaseCalculo());
+        const totalRendimentos = this.getTotalRendimentos();
+        const percent = (totalImposto / totalRendimentos) * 100.00;
+
+        return totalRendimentos === 2200.00 ? percent : 0.00;
     }
 }

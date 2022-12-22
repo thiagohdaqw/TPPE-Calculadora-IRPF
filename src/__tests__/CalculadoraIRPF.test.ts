@@ -183,4 +183,13 @@ it.each<[[string, string][], number]>([
 
     expect(calculadora.getAliquotaEfetiva()).toBeCloseTo(0.00, 2);
   })
+
+  it('obtém outra alíquota efetiva', () => {
+    const calculadora = new CalculadoraIRPF();
+
+    calculadora.cadastraRedimento("Salario", 2200.00);
+    calculadora.cadastrandoDed("Previdencia", 100.00);
+
+    expect(calculadora.getAliquotaEfetiva()).toBeCloseTo(0.668, 2);
+  })
 });
