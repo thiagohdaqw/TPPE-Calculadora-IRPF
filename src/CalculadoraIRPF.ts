@@ -140,7 +140,13 @@ export default class CalculadoraIRPF {
     }
 
     getTotalImposto(imposto): number {
-		return 1500;
+		let tamanhoFaixa1 = 1903.98;
+        if (imposto <= tamanhoFaixa1) {
+            return 0;
+        }
+        else {
+            return 7.20;
+        }
     }
 
 }

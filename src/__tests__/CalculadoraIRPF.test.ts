@@ -169,9 +169,14 @@ it.each<[[string, string][], number]>([
     }).toThrow(NomeEmBrancoException);
   })
 
+  const calculadora = new CalculadoraIRPF();
+
   test ('espera que seja um número', () => {
-    const calculadora = new CalculadoraIRPF();
-    expect(calculadora.getTotalImposto(1500)).toBe(1500)
+    expect(calculadora.getTotalImposto(1500)).toBe(0)
+  })
+
+  test ('espera que seja um número', () => {
+    expect(calculadora.getTotalImposto(2000)).toBe(7.20)
   })
 
 });
