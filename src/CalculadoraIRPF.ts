@@ -140,7 +140,7 @@ export default class CalculadoraIRPF {
     }
 
     getTotalBaseCalculo(): number {
-        return this.getTotalRendimentos() - this.getTotalDed()
+        return this.getTotalRendimentos() - this.getTotalDed() - this.getTotalContribuicaoPrevidenciaria() - this.getTotalDependentes();
     }
 
     getTotalImposto(rendTributavel): number {

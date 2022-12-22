@@ -175,32 +175,25 @@ it.each<[[string, string][], number]>([
     expect(calculadora.getTotalImposto(rendTributavel as number)).toBeCloseTo(resultado);
   });
 
-  it('obtém alíquota efetiva', () => {
+  it.each<[[string, number][], [string, number][], number]>([
+    [
+      [['Salario', 100], ['Aluguel', 500], ['Ação', 800.5], ['Dividendos', 800.1]],
+      [['Pensão alimentícia', 200], ['Valores pagos via carnê-leão', 90], ['Previdência privada', 800], ['Fundo de Previdência dos Servidores públicos (Funpresp)', 405.30]],
+      0.00
+    ],
+    [
+      [['Lucros', 5000.64], ['Aluguel', 0.01]],
+      [['Pensão alimentícia', 100.0], ['Previdência privada', 290.01]],
+      8.02
+    ]
+  ])
+  ('Obtem aliquota efetiva', (rendimentos: [string, number][], deducoes: [string, number][], total: number) => {
     const calculadora = new CalculadoraIRPF();
 
-    calculadora.cadastraRedimento("Salario", 1000.00);
-    calculadora.cadastrandoDed("Previdencia", 100.00);
+    rendimentos.forEach(([nome, valor]) => calculadora.cadastraRedimento(nome, valor));
+    deducoes.forEach(([nome, valor]) => calculadora.cadastrandoDed(nome, valor));
 
-    expect(calculadora.getAliquotaEfetiva()).toBeCloseTo(0.00, 2);
-  })
-
-  it('obtém outra alíquota efetiva', () => {
-    const calculadora = new CalculadoraIRPF();
-
-    calculadora.cadastraRedimento("Salario", 2200.00);
-    calculadora.cadastrandoDed("Previdencia", 100.00);
-
-    expect(calculadora.getAliquotaEfetiva()).toBeCloseTo(0.668, 2);
-  })
-
-  it('obtém outra de outra alíquota efetiva', () => {
-    const calculadora = new CalculadoraIRPF();
-
-    calculadora.cadastraRedimento("Salario", 2200.00);
-    calculadora.cadastraRedimento("Dividendos", 1500.00);
-    calculadora.cadastraRedimento("Mega-Sena", 800.00);
-    calculadora.cadastrandoDed("Previdencia", 500.00);
-
-    expect(calculadora.getAliquotaEfetiva()).toBeCloseTo(5.86, 2);
+    expect(calculadora.getAliquotaEfetiva())
+      .toBeCloseTo(total, 2);
   })
 });
