@@ -174,4 +174,13 @@ it.each<[[string, string][], number]>([
   test.each([[1500, 0], [2000, 7.20], [5000, 505.64]])('Cálculo do Imposto',(rendTributavel : number, resultado : number) => {
     expect(calculadora.getTotalImposto(rendTributavel as number)).toBeCloseTo(resultado);
   });
+
+  it('obtém alíquota efetiva', () => {
+    const calculadora = new CalculadoraIRPF();
+
+    calculadora.cadastraRedimento("Salario", 1000.00);
+    calculadora.cadastrandoDed("Previdencia", 100.00);
+
+    expect(calculadora.getAliquotaEfetiva()).toBeCloseTo(0.00, 2);
+  })
 });

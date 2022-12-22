@@ -184,4 +184,8 @@ export default class CalculadoraIRPF {
         }
         return imposto;
     }
+
+    getAliquotaEfetiva(): number {
+        return 0.00;
+    }
 }
