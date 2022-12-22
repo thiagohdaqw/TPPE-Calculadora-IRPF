@@ -176,7 +176,11 @@ it.each<[[string, string][], number]>([
   })
 
   test ('espera que seja um número', () => {
-    expect(calculadora.getTotalImposto(2000)).toBe(7.20)
+    expect(calculadora.getTotalImposto(2000)).toBeCloseTo(7.20)
+  })
+
+  test ('espera que seja um número', () => {
+    expect(calculadora.getTotalImposto(5000)).toBeCloseTo(505.64)
   })
 
 });

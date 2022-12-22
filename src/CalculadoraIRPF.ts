@@ -16,7 +16,7 @@ export default class CalculadoraIRPF {
     contribuicoes: ContribuicaoPrevidenciaria[];
     pensoes: PensaoAlimenticia[];
     dependentes: Dependente[];
-    imposto: number;
+    rendTributavel: number;
 
     constructor() {
         this.rendimentos = [];
@@ -24,7 +24,7 @@ export default class CalculadoraIRPF {
         this.contribuicoes = [];
         this.pensoes = [];
         this.dependentes = [];
-        this.imposto = 0;
+        this.rendTributavel = 0;
 
     }
 
@@ -139,14 +139,49 @@ export default class CalculadoraIRPF {
             .map((dependente) => [dependente.nome, dependente.dataNascimento]);
     }
 
-    getTotalImposto(imposto): number {
-		let tamanhoFaixa1 = 1903.98;
-        if (imposto <= tamanhoFaixa1) {
-            return 0;
+    getTotalImposto(rendTributavel): number {
+		let imposto = 0;
+        let parteImposto = rendTributavel;
+        let tamanhoFaixa1 = 1903.98;
+        let tamanhoFaixa2 = 922.67;
+        let tamanhoFaixa3 = 924.40;
+        let tamanhoFaixa4 = 913.63;
+        let Faixa1 = 0;
+        let Faixa2 = parseFloat((parteImposto - tamanhoFaixa1).toFixed(2));
+        let Faixa3 = parseFloat((parteImposto - (tamanhoFaixa1 + tamanhoFaixa2)).toFixed(2));
+        let Faixa4 = parseFloat((parteImposto - (tamanhoFaixa1 + tamanhoFaixa2 + tamanhoFaixa3)).toFixed(2));
+        let Faixa5 = parseFloat((parteImposto - (tamanhoFaixa1 + tamanhoFaixa2 + tamanhoFaixa3 + tamanhoFaixa4)).toFixed(2));
+        
+        if (Faixa1 > 0) {
+            imposto += Faixa1;
         }
-        else {
-            return 7.20;
+        if (Faixa2 > 0) {
+            if (Faixa2 <= tamanhoFaixa2) {
+                imposto += Faixa2*7.5/100;
+            }
+            else {
+                imposto += tamanhoFaixa2*7.5/100;
+            }
         }
+        if (Faixa3 > 0) {
+            if (Faixa3 <= tamanhoFaixa3) {
+                imposto += Faixa3*15/100;
+            }
+            else {
+                imposto += tamanhoFaixa3*15/100;
+            }
+        }
+        if (Faixa4 > 0) {
+            if (Faixa4 <= tamanhoFaixa4) {
+                imposto += Faixa4*22.5/100;
+            }
+            else {
+                imposto += tamanhoFaixa4*22.5/100;
+            }
+        }
+        if (Faixa5 > 0) {
+            imposto += Faixa5*27.5/100;
+        }
+        return imposto;
     }
-
 }
