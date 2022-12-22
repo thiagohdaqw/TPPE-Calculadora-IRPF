@@ -194,6 +194,6 @@ export default class CalculadoraIRPF {
         const totalRendimentos = this.getTotalRendimentos();
         const percent = (totalImposto / totalRendimentos) * 100.00;
 
-        return totalRendimentos === 2200.00 ? percent : 0.00;
+        return Math.fround(percent);
     }
 }
