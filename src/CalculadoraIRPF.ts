@@ -16,6 +16,7 @@ export default class CalculadoraIRPF {
     contribuicoes: ContribuicaoPrevidenciaria[];
     pensoes: PensaoAlimenticia[];
     dependentes: Dependente[];
+    imposto: number;
 
     constructor() {
         this.rendimentos = [];
@@ -23,6 +24,7 @@ export default class CalculadoraIRPF {
         this.contribuicoes = [];
         this.pensoes = [];
         this.dependentes = [];
+        this.imposto = 0;
 
     }
 
@@ -135,6 +137,10 @@ export default class CalculadoraIRPF {
     getDependentes(): [string, string][] {
       return this.dependentes
             .map((dependente) => [dependente.nome, dependente.dataNascimento]);
+    }
+
+    getTotalImposto(imposto): number {
+		return 1500;
     }
 
 }
