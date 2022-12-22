@@ -171,16 +171,7 @@ it.each<[[string, string][], number]>([
 
   const calculadora = new CalculadoraIRPF();
 
-  test ('espera que seja um número', () => {
-    expect(calculadora.getTotalImposto(1500)).toBe(0)
-  })
-
-  test ('espera que seja um número', () => {
-    expect(calculadora.getTotalImposto(2000)).toBeCloseTo(7.20)
-  })
-
-  test ('espera que seja um número', () => {
-    expect(calculadora.getTotalImposto(5000)).toBeCloseTo(505.64)
-  })
-
+  test.each([[1500, 0], [2000, 7.20], [5000, 505.64]])('Cálculo do Imposto',(rendTributavel : number, resultado : number) => {
+    expect(calculadora.getTotalImposto(rendTributavel as number)).toBeCloseTo(resultado);
+  });
 });
