@@ -1,3 +1,4 @@
+import { IMPOSTO_FAIXA_3 } from "./Faixas";
 
 
 export default class ImpostoFaixa3 {
@@ -17,10 +18,10 @@ export default class ImpostoFaixa3 {
         let faixa = parseFloat((this.renda - (this.tamanhoFaixa1 + this.tamanhoFaixa2)).toFixed(2));
         if (faixa > 0) {
             if (faixa <= this.tamanhoFaixa3) {
-                return faixa * 15 / 100;
+                return faixa * IMPOSTO_FAIXA_3;
             }
             else {
-                return this.tamanhoFaixa3 * 15 / 100;
+                return this.tamanhoFaixa3 * IMPOSTO_FAIXA_3;
             }
         }
         return 0;

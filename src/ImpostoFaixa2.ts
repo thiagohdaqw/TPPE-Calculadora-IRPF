@@ -1,3 +1,4 @@
+import { IMPOSTO_FAIXA_2 } from "./Faixas";
 
 
 export default class ImpostoFaixa2 {
@@ -16,10 +17,10 @@ export default class ImpostoFaixa2 {
 
         if (faixa > 0) {
             if (faixa <= this.tamanhoFaixa2) {
-                return faixa * 7.5 / 100;
+                return faixa * IMPOSTO_FAIXA_2;
             }
             else {
-                return this.tamanhoFaixa2 * 7.5 / 100;
+                return this.tamanhoFaixa2 * IMPOSTO_FAIXA_2;
             }
         }
         return 0;

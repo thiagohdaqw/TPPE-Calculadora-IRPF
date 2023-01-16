@@ -14,6 +14,7 @@ import ImpostoFaixa2 from "./ImpostoFaixa2";
 import ImpostoFaixa3 from "./ImpostoFaixa3";
 import ImpostoFaixa4 from "./ImpostoFaixa4";
 import ImpostoFaixa5 from "./ImpostoFaixa5";
+import { TAMANHO_FAIXA_1, TAMANHO_FAIXA_2, TAMANHO_FAIXA_3, TAMANHO_FAIXA_4 } from "./Faixas";
 
 export default class CalculadoraIRPF {
     rendimentos: Rendimento[];
@@ -147,10 +148,10 @@ export default class CalculadoraIRPF {
 
     getTotalImposto(rendTributavel): number {
         let imposto = 0;
-        let tamanhoFaixa1 = 1903.98;
-        let tamanhoFaixa2 = 922.67;
-        let tamanhoFaixa3 = 924.40;
-        let tamanhoFaixa4 = 913.63;
+        let tamanhoFaixa1 = TAMANHO_FAIXA_1;
+        let tamanhoFaixa2 = TAMANHO_FAIXA_2;
+        let tamanhoFaixa3 = TAMANHO_FAIXA_3;
+        let tamanhoFaixa4 = TAMANHO_FAIXA_4;
 
         imposto += this.getImpostoFaixa1();
         imposto += this.getImpostoFaixa2(rendTributavel, tamanhoFaixa1, tamanhoFaixa2);
