@@ -142,48 +142,73 @@ export default class CalculadoraIRPF {
 
     getTotalImposto(rendTributavel): number {
         let imposto = 0;
-        let parteImposto = rendTributavel;
         let tamanhoFaixa1 = 1903.98;
         let tamanhoFaixa2 = 922.67;
         let tamanhoFaixa3 = 924.40;
         let tamanhoFaixa4 = 913.63;
-        let Faixa1 = 0;
-        let Faixa2 = parseFloat((parteImposto - tamanhoFaixa1).toFixed(2));
-        let Faixa3 = parseFloat((parteImposto - (tamanhoFaixa1 + tamanhoFaixa2)).toFixed(2));
-        let Faixa4 = parseFloat((parteImposto - (tamanhoFaixa1 + tamanhoFaixa2 + tamanhoFaixa3)).toFixed(2));
-        let Faixa5 = parseFloat((parteImposto - (tamanhoFaixa1 + tamanhoFaixa2 + tamanhoFaixa3 + tamanhoFaixa4)).toFixed(2));
 
+        imposto += this.getImpostoFaixa1();
+        imposto += this.getImpostoFaixa2(rendTributavel, tamanhoFaixa1, tamanhoFaixa2);
+        imposto += this.getImpostoFaixa3(rendTributavel, tamanhoFaixa1, tamanhoFaixa2, tamanhoFaixa3);
+        imposto += this.getImpostoFaixa4(rendTributavel, tamanhoFaixa1, tamanhoFaixa2, tamanhoFaixa3, tamanhoFaixa4);
+        imposto += this.getImpostoFaixa5(rendTributavel, tamanhoFaixa1, tamanhoFaixa2, tamanhoFaixa3, tamanhoFaixa4);
+        return imposto;
+    }
+
+    getImpostoFaixa1() {
+        let Faixa1 = 0;
         if (Faixa1 > 0) {
-            imposto += Faixa1;
+            return Faixa1;
         }
+        return 0;
+    }
+
+    getImpostoFaixa2(rendTributavel, tamanhoFaixa1, tamanhoFaixa2) {
+        let Faixa2 = parseFloat((rendTributavel - tamanhoFaixa1).toFixed(2));
+
         if (Faixa2 > 0) {
             if (Faixa2 <= tamanhoFaixa2) {
-                imposto += Faixa2 * 7.5 / 100;
+                return Faixa2 * 7.5 / 100;
             }
             else {
-                imposto += tamanhoFaixa2 * 7.5 / 100;
+                return tamanhoFaixa2 * 7.5 / 100;
             }
         }
+        return 0;
+    }
+
+    getImpostoFaixa3(rendTributavel, tamanhoFaixa1, tamanhoFaixa2, tamanhoFaixa3) {
+        let Faixa3 = parseFloat((rendTributavel - (tamanhoFaixa1 + tamanhoFaixa2)).toFixed(2));
         if (Faixa3 > 0) {
             if (Faixa3 <= tamanhoFaixa3) {
-                imposto += Faixa3 * 15 / 100;
+                return Faixa3 * 15 / 100;
             }
             else {
-                imposto += tamanhoFaixa3 * 15 / 100;
+                return tamanhoFaixa3 * 15 / 100;
             }
         }
+        return 0;
+    }
+
+    getImpostoFaixa4(rendTributavel, tamanhoFaixa1, tamanhoFaixa2, tamanhoFaixa3, tamanhoFaixa4) {
+        let Faixa4 = parseFloat((rendTributavel - (tamanhoFaixa1 + tamanhoFaixa2 + tamanhoFaixa3)).toFixed(2));
         if (Faixa4 > 0) {
             if (Faixa4 <= tamanhoFaixa4) {
-                imposto += Faixa4 * 22.5 / 100;
+                return Faixa4 * 22.5 / 100;
             }
             else {
-                imposto += tamanhoFaixa4 * 22.5 / 100;
+                return tamanhoFaixa4 * 22.5 / 100;
             }
         }
+        return 0;
+    }
+
+    getImpostoFaixa5(rendTributavel, tamanhoFaixa1, tamanhoFaixa2, tamanhoFaixa3, tamanhoFaixa4) {
+        let Faixa5 = parseFloat((rendTributavel - (tamanhoFaixa1 + tamanhoFaixa2 + tamanhoFaixa3 + tamanhoFaixa4)).toFixed(2));
         if (Faixa5 > 0) {
-            imposto += Faixa5 * 27.5 / 100;
+            return Faixa5 * 27.5 / 100;
         }
-        return imposto;
+        return 0;
     }
 
     getAliquotaEfetiva(): number {
