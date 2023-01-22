@@ -22,7 +22,6 @@ export default class CalculadoraIRPF {
     contribuicoes: ContribuicaoPrevidenciaria[];
     pensoes: PensaoAlimenticia[];
     dependentes: Dependente[];
-    rendTributavel: number;
 
     constructor() {
         this.rendimentos = [];
@@ -30,8 +29,6 @@ export default class CalculadoraIRPF {
         this.contribuicoes = [];
         this.pensoes = [];
         this.dependentes = [];
-        this.rendTributavel = 0;
-
     }
 
     cadastraRedimento(rendimento: string, valor: number) {
@@ -146,7 +143,7 @@ export default class CalculadoraIRPF {
         return this.getTotalRendimentos() - this.getTotalDeducoes() - this.getTotalContribuicaoPrevidenciaria() - this.getTotalDependentes();
     }
 
-    getTotalImposto(rendTributavel): number {
+    getTotalImposto(): number {
         let imposto = 0;
         let tamanhoFaixa1 = TAMANHO_FAIXA_1;
         let tamanhoFaixa2 = TAMANHO_FAIXA_2;
@@ -154,10 +151,10 @@ export default class CalculadoraIRPF {
         let tamanhoFaixa4 = TAMANHO_FAIXA_4;
 
         imposto += this.getImpostoFaixa1();
-        imposto += this.getImpostoFaixa2(rendTributavel, tamanhoFaixa1, tamanhoFaixa2);
-        imposto += this.getImpostoFaixa3(rendTributavel, tamanhoFaixa1, tamanhoFaixa2, tamanhoFaixa3);
-        imposto += this.getImpostoFaixa4(rendTributavel, tamanhoFaixa1, tamanhoFaixa2, tamanhoFaixa3, tamanhoFaixa4);
-        imposto += this.getImpostoFaixa5(rendTributavel, tamanhoFaixa1, tamanhoFaixa2, tamanhoFaixa3, tamanhoFaixa4);
+        imposto += this.getImpostoFaixa2(tamanhoFaixa1, tamanhoFaixa2);
+        imposto += this.getImpostoFaixa3(tamanhoFaixa1, tamanhoFaixa2, tamanhoFaixa3);
+        imposto += this.getImpostoFaixa4(tamanhoFaixa1, tamanhoFaixa2, tamanhoFaixa3, tamanhoFaixa4);
+        imposto += this.getImpostoFaixa5(tamanhoFaixa1, tamanhoFaixa2, tamanhoFaixa3, tamanhoFaixa4);
         return imposto;
     }
 
@@ -165,24 +162,24 @@ export default class CalculadoraIRPF {
         return new ImpostoFaixa1().calcular();
     }
 
-    getImpostoFaixa2(rendTributavel, tamanhoFaixa1, tamanhoFaixa2) {
-        return new ImpostoFaixa2(rendTributavel, tamanhoFaixa1, tamanhoFaixa2).calcular();
+    getImpostoFaixa2(tamanhoFaixa1, tamanhoFaixa2) {
+        return new ImpostoFaixa2(this, tamanhoFaixa1, tamanhoFaixa2).calcular();
     }
 
-    getImpostoFaixa3(rendTributavel, tamanhoFaixa1, tamanhoFaixa2, tamanhoFaixa3) {
-        return new ImpostoFaixa3(rendTributavel, tamanhoFaixa1, tamanhoFaixa2, tamanhoFaixa3).calcular();
+    getImpostoFaixa3(tamanhoFaixa1, tamanhoFaixa2, tamanhoFaixa3) {
+        return new ImpostoFaixa3(this, tamanhoFaixa1, tamanhoFaixa2, tamanhoFaixa3).calcular();
     }
 
-    getImpostoFaixa4(rendTributavel, tamanhoFaixa1, tamanhoFaixa2, tamanhoFaixa3, tamanhoFaixa4) {
-        return new ImpostoFaixa4(rendTributavel, tamanhoFaixa1, tamanhoFaixa2, tamanhoFaixa3, tamanhoFaixa4).calcular();
+    getImpostoFaixa4(tamanhoFaixa1, tamanhoFaixa2, tamanhoFaixa3, tamanhoFaixa4) {
+        return new ImpostoFaixa4(this, tamanhoFaixa1, tamanhoFaixa2, tamanhoFaixa3, tamanhoFaixa4).calcular();
     }
 
-    getImpostoFaixa5(rendTributavel, tamanhoFaixa1, tamanhoFaixa2, tamanhoFaixa3, tamanhoFaixa4) {
-        return new ImpostoFaixa5(rendTributavel, tamanhoFaixa1, tamanhoFaixa2, tamanhoFaixa3, tamanhoFaixa4).calcular();
+    getImpostoFaixa5(tamanhoFaixa1, tamanhoFaixa2, tamanhoFaixa3, tamanhoFaixa4) {
+        return new ImpostoFaixa5(this, tamanhoFaixa1, tamanhoFaixa2, tamanhoFaixa3, tamanhoFaixa4).calcular();
     }
 
     getAliquotaEfetiva(): number {
-        const totalImposto = this.getTotalImposto(this.getTotalBaseCalculo());
+        const totalImposto = this.getTotalImposto();
         const totalRendimentos = this.getTotalRendimentos();
         const percent = (totalImposto / totalRendimentos) * 100.00;
 

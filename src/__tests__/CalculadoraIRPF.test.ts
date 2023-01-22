@@ -6,6 +6,13 @@ import ValorContribuicaoInvalidoException from '../excecoes/ValorContribuicaoInv
 import ValorPensaoInvalidoException from '../excecoes/ValorPensaoInvalidoException';
 import NomeEmBrancoException from '../excecoes/NomeEmBrancoException';
 
+enum Deducao {
+    Pensao,
+    Previdencia,
+    Dependente,
+    Outros,
+};
+
 describe('CalculadoraIRPF', () => {
 
     it.each<[[string, number][], number]>([
@@ -169,10 +176,39 @@ describe('CalculadoraIRPF', () => {
             }).toThrow(NomeEmBrancoException);
         })
 
-    test.each([[1500, 0], [2000, 7.20], [5000, 505.64]])
-        ('Cálculo do Imposto', (rendTributavel: number, resultado: number) => {
+    it.each<[[string, number][], [string, number | string, Deducao][], number]>([
+            [
+                [['Salario', 10000], ['Aluguel', 500], ['Ação', 800.5], ['Dividendos', 800.1]],
+                [['Pensão alimentícia', 200, Deducao.Pensao], ['Valores pagos via carnê-leão', 90, Deducao.Outros], ['Previdência privada', 800, Deducao.Previdencia], ['Fundo de Previdência dos Servidores públicos (Funpresp)', 405.30, Deducao.Previdencia]],
+                2102.097
+            ],
+            [
+                [['Lucros', 10000.64], ['Aluguel', 0.01]],
+                [['Pensão alimentícia', 100.0, Deducao.Pensao], ['Previdência privada', 290.01, Deducao.Previdencia], ['INSS', 550, Deducao.Previdencia], ['Remedio', 100, Deducao.Outros]],
+                1622.316
+            ]
+        ])
+        ('Cálculo do Imposto', (rendimentos: [string, number][], deducoes: [string, number | string, Deducao][], total: number) => {
             const calculadora = new CalculadoraIRPF();
-            expect(calculadora.getTotalImposto(rendTributavel as number)).toBeCloseTo(resultado);
+
+            rendimentos.forEach(([nome, valor]) => calculadora.cadastraRedimento(nome, valor));
+            deducoes.forEach(([nome, valor, tipo]) => {
+                switch(tipo) {
+                    case Deducao.Dependente:
+                        calculadora.cadastraDependente(nome, valor as string);
+                        break;
+                    case Deducao.Pensao:
+                        calculadora.cadastraPensaoAlimenticia(nome, valor as number);
+                        break;
+                    case Deducao.Previdencia:
+                        calculadora.cadastraContribuicaoPrevidenciaria(nome, valor as number);
+                        break;
+                    case Deducao.Outros:
+                        calculadora.cadastraDeducao(nome, valor as number)
+                }
+            });
+
+            expect(calculadora.getTotalImposto()).toBeCloseTo(total);
         });
 
     it.each<[[string, number][], [string, number][], number]>([
