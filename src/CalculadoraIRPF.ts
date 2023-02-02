@@ -121,6 +121,11 @@ export default class CalculadoraIRPF {
     }
 
     getTotalImposto(): number {
+      /**
+       * Método responsável por calcular o valor total do imposto somando todas as faixas
+       * Retorna: valor total do imposto
+       */
+
         let imposto = 0;
         let tamanhoFaixa1 = TAMANHO_FAIXA_1;
         let tamanhoFaixa2 = TAMANHO_FAIXA_2;
@@ -136,6 +141,10 @@ export default class CalculadoraIRPF {
     }
 
     getImpostoFaixa1() {
+      /**
+       * Método responsável por calcular o valor do imposto que está na faixa 1
+       * Retorna: valor calculado
+       */
         return new ImpostoFaixa1().calcular();
     }
 
