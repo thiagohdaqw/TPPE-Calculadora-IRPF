@@ -3,6 +3,7 @@ import ValorRendimentoInvalidoException from "./excecoes/ValorRendimentoInvalido
 import ValorDeducaoInvalidoException from "./excecoes/ValorDeducaoInvalidoException";
 import ValorContribuicaoInvalidoException from "./excecoes/ValorContribuicaoInvalidoException";
 import ValorPensaoInvalidoException from "./excecoes/ValorPensaoInvalidoException";
+import NomeEmBrancoException from "./excecoes/NomeEmBrancoException";
 
 export default class Validacao{
     static validaDescricaoRendimento(descricaoRendimento: string): void {
@@ -50,6 +51,13 @@ export default class Validacao{
     static validaValorPensao(valorPensao: number): void {
         if (valorPensao === null || valorPensao < 0) {
             throw new ValorPensaoInvalidoException('O valor da pensao deve ser maior ou igual a 0');
+        }
+    }
+
+
+    static validaNomeDependente(nomeDependente: string): void {
+        if (nomeDependente == null || nomeDependente?.trim().length == 0) {
+            throw new NomeEmBrancoException('O nome do dependente não pode ser em branco');
         }
     }
 
