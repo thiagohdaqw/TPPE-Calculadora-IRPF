@@ -3,7 +3,6 @@ import Deducao from "./Deducao";
 import ContribuicaoPrevidenciaria from "./ContribuicaoPrevidenciaria";
 import PensaoAlimenticia from "./PensaoAlimenticia";
 import Dependente from "./Dependente";
-import NomeEmBrancoException from "./excecoes/NomeEmBrancoException";
 import ImpostoFaixa1 from "./ImpostoFaixa1";
 import ImpostoFaixa2 from "./ImpostoFaixa2";
 import ImpostoFaixa3 from "./ImpostoFaixa3";
@@ -97,9 +96,7 @@ export default class CalculadoraIRPF {
     }
 
     cadastraDependente(nome: string, dataNascimento: string) {
-        if (nome == null || nome?.trim().length == 0) {
-            throw new NomeEmBrancoException('O nome do dependente não pode ser em branco');
-        }
+        Validacao.validaNomeDependente(nome);
         this.dependentes.push(new Dependente(nome, dataNascimento));
     }
 
