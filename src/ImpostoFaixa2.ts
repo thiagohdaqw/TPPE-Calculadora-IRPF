@@ -14,6 +14,12 @@ export default class ImpostoFaixa2 {
         this.tamanhoFaixa2 = tamanhoFaixa2;
     }
 
+    /*
+       * Método responsável por calcular o valor total do imposto que se enquadra na faixa 2
+       * Retorna: valor total do imposto da faixa 2
+       * Aqui foram extraídas sub-classes para serem responsáveis pelo cálculo do imposto de acordo com cada faixa
+    */
+   
     calcular() {
         let faixa = parseFloat((this.calculadora.getTotalBaseCalculo() - this.tamanhoFaixa1).toFixed(2));
 
