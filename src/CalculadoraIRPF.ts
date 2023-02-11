@@ -1,8 +1,3 @@
-import DescricaoEmBrancoException from "./excecoes/DescricaoEmBrancoException";
-import ValorRendimentoInvalidoException from "./excecoes/ValorRendimentoInvalidoException";
-import ValorDeducaoInvalidoException from "./excecoes/ValorDeducaoInvalidoException";
-import ValorContribuicaoInvalidoException from "./excecoes/ValorContribuicaoInvalidoException";
-import ValorPensaoInvalidoException from "./excecoes/ValorPensaoInvalidoException";
 import Rendimento from "./Rendimento";
 import Deducao from "./Deducao";
 import ContribuicaoPrevidenciaria from "./ContribuicaoPrevidenciaria";
@@ -15,6 +10,7 @@ import ImpostoFaixa3 from "./ImpostoFaixa3";
 import ImpostoFaixa4 from "./ImpostoFaixa4";
 import ImpostoFaixa5 from "./ImpostoFaixa5";
 import { TAMANHO_FAIXA_1, TAMANHO_FAIXA_2, TAMANHO_FAIXA_3, TAMANHO_FAIXA_4 } from "./Faixas";
+import Validacao from "./Validacoes";
 
 export default class CalculadoraIRPF {
     rendimentos: Rendimento[];
@@ -32,12 +28,8 @@ export default class CalculadoraIRPF {
     }
 
     cadastraRedimento(rendimento: string, valor: number) {
-        if (rendimento == null || rendimento.trim().length == 0) {
-            throw new DescricaoEmBrancoException('O nome do rendimento não pode ser em branco');
-        }
-        if (valor === null || valor < 0) {
-            throw new ValorRendimentoInvalidoException('O valor do rendimento deve ser maior ou igual a 0');
-        }
+        Validacao.validaDescricaoRendimento(rendimento);
+        Validacao.validaValorRendimento(valor);
 
         this.rendimentos.push(new Rendimento(rendimento, valor));
     }
@@ -53,13 +45,8 @@ export default class CalculadoraIRPF {
     }
 
     cadastraDeducao(deducao: string, valor: number) {
-        if (deducao?.trim().length === 0) {
-            throw new DescricaoEmBrancoException('O nome da deducao não pode ser em branco');
-        }
-
-        if (valor === null || valor < 0) {
-            throw new ValorDeducaoInvalidoException('O valor da deducao deve ser maior ou igual a 0');
-        }
+        Validacao.validaDescricaoDeducao(deducao);
+        Validacao.validaValorDeducao(valor);
 
         this.deducoes.push(new Deducao(deducao, valor));
     }
@@ -75,13 +62,8 @@ export default class CalculadoraIRPF {
     }
 
     cadastraContribuicaoPrevidenciaria(contribuicao: string, valor: number) {
-        if (contribuicao?.trim().length === 0) {
-            throw new DescricaoEmBrancoException('O nome da contribuicao não pode ser em branco');
-        }
-
-        if (valor === null || valor < 0) {
-            throw new ValorContribuicaoInvalidoException('O valor da contribuicao deve ser maior ou igual a 0');
-        }
+        Validacao.validaDescricaoContribuicao(contribuicao);
+        Validacao.validaValorContribuicao(valor);
 
         this.contribuicoes.push(new ContribuicaoPrevidenciaria(contribuicao, valor));
     }
@@ -98,13 +80,8 @@ export default class CalculadoraIRPF {
     }
 
     cadastraPensaoAlimenticia(pensao: string, valor: number) {
-        if (pensao?.trim().length === 0) {
-            throw new DescricaoEmBrancoException('O nome da pensao não pode ser em branco');
-        }
-
-        if (valor === null || valor < 0) {
-            throw new ValorPensaoInvalidoException('O valor da pensao deve ser maior ou igual a 0');
-        }
+        Validacao.validaDescricaoPensao(pensao);
+        Validacao.validaValorPensao(valor);
 
         this.pensoes.push(new PensaoAlimenticia(pensao, valor));
     }
